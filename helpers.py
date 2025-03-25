@@ -22,3 +22,20 @@ def parse_user_info(raw_data):
         "personaname": player.get("personaname", "Unknown"),
         "creation_date": unix_to_date(player.get("timecreated", 0))
     }
+
+def format_report(user_info):
+# Returns a formatted report string for the given user info
+    if not user_info:
+        return "No user data available."
+    report = (
+        f"User Report:\n"
+        f"Name: {user_info.get('personaname')}\n"
+        f"Steam ID: {user_info.get('steam_id')}\n"
+        f"Account Created: {user_info.get('creation_date')}\n"
+    )
+    return report
+
+def parse_friend_count(raw_data):
+# Extract the number of friends from the raw friend list API response
+    friends = raw_data.get("friendslist", {}).get("friends", [])
+    return len(friends) if friends else 0
