@@ -49,3 +49,34 @@ class SteamAPI:
         else:
             print(f"Error fetching friend list for Steam ID {steam_id}.")
             return None
+    def get_owned_games(self, steam_id):
+    # Fetch owned games and playtime data from the Steam API
+            endpoint = "IPlayerService/GetOwnedGames/v1/"
+            params = {
+                "key": self.api_key,
+                "steamid": steam_id,
+                "include_appinfo": "true",
+                "include_played_free_games": "true"
+            }
+            url = self.base_url + endpoint
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                return response.json()
+            else:
+                print(f"Error fetching owned games for Steam ID {steam_id}.")
+                return None
+
+    def get_bans(self, steam_id):
+    # Fetch ban information for the given Steam ID
+        endpoint = "ISteamUser/GetPlayerBans/v1/"
+        params = {
+            "key": self.api_key,
+            "steamids": steam_id
+        }
+        url = self.base_url + endpoint
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Error fetching bans for Steam ID {steam_id}.")
+            return None
