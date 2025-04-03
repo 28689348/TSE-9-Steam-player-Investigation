@@ -1,5 +1,6 @@
 from steam_api import SteamAPI
 from helpers import (parse_user_info, format_report, parse_friend_count,parse_owned_games, parse_vac_ban)
+from scoring import calculate_smurf_score, classify_account
 
 def read_steam_ids(file_path="steam_ids.txt"):
 # Read Steam IDs from the file one per line
@@ -38,6 +39,10 @@ def main():
         bans_data = api.get_bans(steam_id)
         vac_ban = parse_vac_ban(bans_data)
 
+        # Fetches the clasification results
+        score = calculate_smurf_score(user_info, friend_count, number_of_games, total_playtime, vac_ban)
+        classification = classify_account(score)
+
         # Prints the combined report
         print("User Info:")
         print(format_report(user_info))
@@ -45,6 +50,8 @@ def main():
         print(f"Number of Games Owned: {number_of_games}")
         print(f"Total Playtime (minutes): {total_playtime}")
         print(f"VAC Banned: {vac_ban}")
+        print(f"Smurf Score: {score}")
+        print(f"Classification: {classification}")
         print("-" * 40)
 
 if __name__ == "__main__":
