@@ -49,6 +49,7 @@ class SteamAPI:
         else:
             print(f"Error fetching friend list for Steam ID {steam_id}.")
             return None
+        
     def get_owned_games(self, steam_id):
     # Fetch owned games and playtime data from the Steam API
             endpoint = "IPlayerService/GetOwnedGames/v1/"

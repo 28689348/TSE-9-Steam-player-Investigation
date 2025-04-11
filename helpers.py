@@ -44,20 +44,19 @@ def format_report(user_info):
 
 def parse_friend_count(raw_data):
 # Extract the number of friends from the raw friend list API response
+
     friends = raw_data.get("friendslist", {}).get("friends", [])
     return len(friends) if friends else 0
 
 def parse_vac_ban(raw_data):
-# Determine whether the account is VAC banned. Returns "Yes" if banned if not then "No"
-
+# Determine whether the account is VAC banned. Returns 1 if banned and if not then 0
     players = raw_data.get("players", [])
     if players and players[0].get("VACBanned", False):
-        return "Yes"
-    return "No"
+        return 1
+    return 0
 
 def parse_owned_games(raw_data):
 # Extract number of games owned and total playtime from the raw owned games API response
-
     games = raw_data.get("response", {}).get("games", [])
     number_of_games = len(games)
     total_playtime = sum(game.get("playtime_forever", 0) for game in games)
